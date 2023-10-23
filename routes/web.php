@@ -77,6 +77,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('members/analyze', [\App\Http\Controllers\MemberController::class, 'analyze']);
         Route::get('members/analyze_silver', [\App\Http\Controllers\MemberController::class, 'analyze_silver']);
 
+        Route::get('members/questions/{type}/{level}', [\App\Http\Controllers\MemberController::class, 'questions']);
+        Route::post('members/questions/store', [\App\Http\Controllers\MemberController::class, 'questions_store']);
+
+
     });
 });
 Route::get('', [\App\Http\Controllers\HomeController::class, 'index']);

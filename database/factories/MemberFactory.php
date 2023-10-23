@@ -18,10 +18,20 @@ class MemberFactory extends Factory
         return [
             'author' => 1,
             'name' => $this->faker->name(),
+            'family' => $this->faker->lastName(),
             'mobile' => $this->faker->phoneNumber(),
             'status' => 'bronze',
-            'point_1' => $this->faker->numberBetween('1', '100'),
-            'point_2' => $this->faker->numberBetween('1', '100'),
+            'emotional' => $this->faker->numberBetween('1', '10'),
+            'work' => $this->faker->numberBetween('1', '10'),
+            'consult_ability' => $this->faker->numberBetween('1', '10'),
+            'success' => $this->faker->numberBetween('1', '10'),
+            'intimacy' => $this->faker->numberBetween('1', '10'),
+            'age' => $this->faker->numberBetween('1', '10'),
+            'motivation' => $this->faker->numberBetween('1', '10'),
+            'free_time' => $this->faker->numberBetween('1', '10'),
+            'marital_status' => $this->faker->numberBetween('1', '10'),
+            'experience' => $this->faker->numberBetween('1', '10'),
+            'meets' => $this->faker->numberBetween('1', '10'),
         ];
     }
 }

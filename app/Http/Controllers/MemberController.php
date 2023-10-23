@@ -4,20 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Models\Member;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MemberController extends Controller
 {
 
     public function bronze()
     {
-        $rows = Member::where('author', auth()->user()->id)->where('status', 'bronze')->orderBy('point_1','desc')->paginate(30);
+        $rows = DB::table('members')
+            ->orderBy(DB::raw("`emotional` + `work`"), 'desc')
+            ->where('author', auth()->user()->id)
+            ->where('status', 'bronze')
+            ->paginate(30);
         $count = Member::where('author', auth()->user()->id)->where('status', 'bronze')->count();
         return view('panel.member.bronze', ['rows' => $rows, 'count' => $count]);
     }
 
     public function silver()
     {
-        $rows = Member::where('author', auth()->user()->id)->where('status', 'silver')->orderBy('point_2','desc')->paginate(20);
+        $rows = Member::where('author', auth()->user()->id)->where('status', 'silver')
+            ->orderBy(DB::raw("`emotional` + `work` + `consult_ability` + `success` + `intimacy`"), 'desc')
+            ->paginate(30);
         $count = Member::where('author', auth()->user()->id)->where('status', 'silver')->count();
 
         return view('panel.member.silver', ['rows' => $rows, 'count' => $count]);
@@ -25,8 +32,9 @@ class MemberController extends Controller
 
     public function golden()
     {
-        $rows = Member::where('author', auth()->user()->id)->where('status', 'golden')->orderBy('point_2','desc')->paginate(50);
-
+        $rows = Member::where('author', auth()->user()->id)->where('status', 'golden')
+            ->orderBy(DB::raw("`emotional` + `work` + `consult_ability` + `success` + `intimacy`+`age` + `motivation` + `free_time` + `marital_status` + `experience`"), 'desc')
+            ->paginate(30);
         return view('panel.member.golden', ['rows' => $rows]);
     }
 
@@ -35,9 +43,8 @@ class MemberController extends Controller
         Member::create([
             'author' => auth()->user()->id,
             'name' => $request->name,
-            'mobile' => $request->mobile,
-            'national_code' => $request->national_code,
-            'point_1' => $request->question_one + $request->question_tow
+            'family' => $request->family,
+
         ]);
 
         alert()->success('فرد جدید به لیست اسامی افزوده گردید.', 'موفق');
@@ -50,8 +57,6 @@ class MemberController extends Controller
         $memeber->update([
             'name' => $request->name,
             'mobile' => $request->mobile,
-            'national_code' => $request->national_code,
-            'point_1' => $request->question_one + $request->question_tow
         ]);
 
         alert()->success('اطلاعات ویرایش گردید.', 'موفق');
@@ -68,18 +73,36 @@ class MemberController extends Controller
     {
         $count = Member::where('author', auth()->user()->id)->where('status', 'bronze')->count();
         if ($count >= 200) {
-            $tops = Member::where('author', auth()->user()->id)->where('status', 'bronze')->orderby('point_1', 'desc')->take(100)->get();
-            foreach ($tops as $top) {
-                $top->update([
-                    'status' => 'silver'
-                ]);
-            }
+            $tops = DB::table('members')
+                ->where(DB::raw("`emotional` + `work`"), '>=', 4)
+                ->orderBy(DB::raw("`emotional` + `work`"), 'desc')
+                ->where('author', auth()->user()->id)
+                ->where('status', 'bronze')
+                ->limit(100)
+                ->get();
+
+            $last = $tops->last();
+            $lastPoint = $last->work + $last->emotional;
+
+            DB::table('members')
+                ->where(DB::raw("`emotional` + `work`"), '>=', 4)
+                ->orderBy(DB::raw("`emotional` + `work`"), 'desc')
+                ->where('author', auth()->user()->id)
+                ->where('status', 'bronze')
+                ->limit(100)
+                ->update(['status' => 'silver']);
+            DB::table('members')
+                ->where(DB::raw("`emotional` + `work`"), $lastPoint)
+                ->where('author', auth()->user()->id)
+                ->where('status', 'bronze')
+                ->update(['status' => 'silver']);
             alert()->success('آنالیز با موفقیت انجام شد.', 'موفق');
             return back();
         }
         alert()->error('حداقل 200 نفر باید وارد کنید.', 'ناموفق');
         return back();
     }
+
 
     public function update_silver(Request $request, $id)
     {
@@ -95,16 +118,65 @@ class MemberController extends Controller
     {
         $count = Member::where('author', auth()->user()->id)->where('status', 'silver')->count();
         if ($count >= 100) {
-            $tops = Member::where('author', auth()->user()->id)->where('status', 'silver')->orderby('point_2', 'desc')->take(50)->get();
-            foreach ($tops as $top) {
-                $top->update([
-                    'status' => 'golden'
-                ]);
-            }
+            $tops = DB::table('members')
+                ->where(DB::raw("`emotional` + `work` + `consult_ability` + `success` + `intimacy`"), '>=', 13)
+                ->orderBy(DB::raw("`emotional` + `work` + `consult_ability` + `success` + `intimacy`"), 'desc')
+                ->where('author', auth()->user()->id)
+                ->where('status', 'silver')
+                ->limit('50')
+                ->get();
+
+            $last = $tops->last();
+            $lastPoint = $last->work + $last->emotional + $last->consult_ability + $last->success + $last->intimacy;
+
+            DB::table('members')
+                ->where(DB::raw("`emotional` + `work` + `consult_ability` + `success` + `intimacy`"), '>=', 13)
+                ->where('author', auth()->user()->id)
+                ->where('status', 'silver')
+                ->limit(50)
+                ->update(['status' => 'golden']);
+            DB::table('members')
+                ->where(DB::raw("`emotional` + `work`"), $lastPoint)
+                ->where('author', auth()->user()->id)
+                ->where('status', 'silver')
+                ->update(['status' => 'golden']);
             alert()->success('آنالیز با موفقیت انجام شد.', 'موفق');
             return back();
         }
         alert()->error('حداقل 100 نفر باید وارد کنید.', 'ناموفق');
         return back();
+    }
+
+    public function questions($type,$status)
+    {
+        $members = Member::where('author', auth()->user()->id)
+            ->where('status', $status)
+            ->orderBy(DB::raw("`emotional` + `work` + `consult_ability` + `success` + `intimacy`+`age` + `motivation` + `free_time` + `marital_status` + `experience`"), 'desc')
+            ->paginate(1);
+        return view('panel.member.questions', ['members' => $members, 'type' => $type]);
+    }
+
+    public function questions_store(Request $request)
+    {
+        $member = Member::where('id', $request->user_id)->first();
+        $member->update([
+            'emotional' => $request->emotional ?? $member->emotional,
+            'work' => $request->work ?? $member->work,
+            'consult_ability' => $request->consult_ability ?? $member->consult_ability,
+            'success' => $request->success ?? $member->success,
+            'intimacy' => $request->intimacy ?? $member->intimacy,
+            'age' => $request->age ?? $member->age,
+            'motivation' => $request->motivation ?? $member->motivation,
+            'free_time' => $request->free_time ?? $member->free_time,
+            'marital_status' => $request->marital_status ?? $member->marital_status,
+            'experience' => $request->experience ?? $member->experience,
+            'meets' => $request->meets ?? $member->meets,
+        ]);
+        $url = explode('?', url()->previous());
+        $page = $request->page + 1;
+        alert()->success('ُسوال با موفقیت ثبت شد.', 'موفق');
+
+        return redirect($url[0] . '?page=' . $page);
+
     }
 }

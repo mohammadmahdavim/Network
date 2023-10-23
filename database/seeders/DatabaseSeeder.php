@@ -13,11 +13,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-//        \App\Models\Member::factory(200)->create();
-        \App\Models\IdentificationCode::factory(1000)->create();
-        $this->call([
-            LevelSeed::class
-//            UserIdentificationCode::class
-        ]);
+        \App\Models\Member::factory(2000)->create();
+//        \App\Models\IdentificationCode::factory(1000)->create();
+//        $this->call([
+//            LevelSeed::class
+////            UserIdentificationCode::class
+//        ]);
     }
 }
