@@ -11,7 +11,7 @@
 
     <div class="form-check">
         <input value="5" class="form-check-input" type="radio"
-               name="marital_status"
+               name="marital_status" required
                id="marital_status1">
         <label class="form-check-label" for="marital_status1">
             مجرد        </label>

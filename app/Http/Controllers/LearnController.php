@@ -126,7 +126,7 @@ class LearnController extends Controller
         }
         $rows = Learn::with('level')
             ->where('level_id', $levelId)
-            ->orderBy('sort', 'asc')->paginate(12);
+            ->orderBy('sort', 'asc')->paginate(50);
         return view('panel.learn.level', ['rows' => $rows]);
     }
 
@@ -138,5 +138,14 @@ class LearnController extends Controller
             ->first();
         return view('panel.learn.show', ['row' => $row]);
 
+    }
+
+    public function learns_level_detect()
+    {
+        $level = auth()->user()->level_id;
+        if ($level == 1) {
+            return redirect('panel');
+        }
+        return redirect('/learns_list/' . $level);
     }
 }

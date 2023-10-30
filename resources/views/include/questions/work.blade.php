@@ -9,7 +9,7 @@
 
     <div class="form-check">
         <input value="10" class="form-check-input" type="radio"
-               name="work"
+               name="work" required
                id="work1">
         <label class="form-check-label" for="work1">
     بدون سوال و جواب با شما همراهی میکند.

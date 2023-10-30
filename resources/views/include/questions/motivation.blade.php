@@ -11,7 +11,7 @@
 
     <div class="form-check">
         <input value="5" class="form-check-input" type="radio"
-               name="motivation"
+               name="motivation" required
                id="motivation1">
         <label class="form-check-label" for="motivation1">
             افرادی که بلند پروازند و می خواهند بهترین زندگی را داشته باشند، افرادی که به تازگی درسشان را تمام کرده اند و بدنبال شغل و کار ثابت هستند، افرادی که از شغل و درآمدشان ناراضی هستند، افرادی که می خواهند استقلال مالی داشته باشند، افرادی که حتی با وجود درآمد خوب باز بدنبال پیشرفتند، افرادی که به تجملات در زندگی فکر می کنند...        </label>

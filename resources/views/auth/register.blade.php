@@ -93,6 +93,21 @@
                         @endif
                     </div>
                 </div>
+                <div class="form-group row">
+
+                    <div class="col-md-12">
+                        <label>تکرار پسورد</label>
+
+                        <input id="password_confirmation" type="password"
+                               class="form-control form-control-lg{{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}"
+                               name="password_confirmation" required placeholder="رمز ورود">
+
+                        @if ($errors->has('password_confirmation'))
+                            <span class="invalid-feedback" role="alert">
+                                    </span>
+                        @endif
+                    </div>
+                </div>
 
                 <div class="form-group row mb-0">
                     <div class="col-md-12">

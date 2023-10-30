@@ -55,6 +55,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::any('learns/delete/{id}', [\App\Http\Controllers\LearnController::class, 'destroy']);
         Route::any('learns/files/{id}', [\App\Http\Controllers\LearnController::class, 'files']);
         Route::get('learns_list/{level_id}', [\App\Http\Controllers\LearnController::class, 'learns_level']);
+        Route::get('learns_list_level', [\App\Http\Controllers\LearnController::class, 'learns_level_detect']);
 
         Route::resource('exams', \App\Http\Controllers\ExamController::class);
         Route::any('exams/delete/{id}', [\App\Http\Controllers\ExamController::class, 'destroy']);
@@ -69,6 +70,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('exams/finish/{id}', [\App\Http\Controllers\ExamController::class, 'take']);
 
         Route::resource('users', \App\Http\Controllers\UserController::class);
+        Route::any('members/update/{id}', [\App\Http\Controllers\MemberController::class, 'update']);
         Route::get('members/bronze', [\App\Http\Controllers\MemberController::class, 'bronze']);
         Route::get('members/silver', [\App\Http\Controllers\MemberController::class, 'silver']);
         Route::get('members/golden', [\App\Http\Controllers\MemberController::class, 'golden']);

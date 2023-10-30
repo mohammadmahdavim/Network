@@ -9,7 +9,7 @@
     </p>
 
     <div class="form-check">
-        <input value="8" class="form-check-input" type="radio"
+        <input value="8" class="form-check-input" type="radio" required
                name="consult_ability"
                id="consult_ability1">
         <label class="form-check-label" for="consult_ability1">
@@ -24,7 +24,8 @@
             حتما می گوید و در صورت مخالفت بحث می کند اما باز هم اعتماد کرده و انجام نمی دهد.        </label>
     </div>
     <div class="form-check">
-        <input value=3" class="form-check-input" type="radio"
+        <input value="
+        3" class="form-check-input" type="radio"
                name="consult_ability"
                id="consult_ability3">
         <label class="form-check-label" for="consult_ability3">

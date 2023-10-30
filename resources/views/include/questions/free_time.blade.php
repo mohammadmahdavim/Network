@@ -10,7 +10,7 @@
 
     <div class="form-check">
         <input value="5" class="form-check-input" type="radio"
-               name="free_time"
+               name="free_time" required
                id="free_time1">
         <label class="form-check-label" for="free_time1">
             تایم آزاد یا بیکار        </label>

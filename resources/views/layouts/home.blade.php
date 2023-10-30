@@ -109,7 +109,11 @@
                                                 </li>
                         -->
                         <li class="nav-item">
-                            <a data-scroll="" class="nav-link section-scroll" href="/home/blogs">وبلاگ</a>
+                            <a data-scroll="" class="nav-link section-scroll" href="/home/blogs">آموزش عمومی</a>
+                        </li>
+                        <li class="nav-item">
+                            <a data-scroll="" class="nav-link section-scroll" href="/learns_list_level">                            آموزش تخصصی
+                            </a>
                         </li>
                         <li>
                             <a data-scroll="" href="/home/products" class="nav-link section-scroll">فروشگاه</a>
@@ -119,14 +123,20 @@
                         {{--                        </li>--}}
 
                         <li>
-                            <div class="connect-block"><a href="/login" class="btn btn-blue">
+                            <div class="connect-block">
 
                                     @if(auth()->user())
-                                        {{auth()->user()->name}}
+                                    <a href="/panel" class="btn btn-blue">
+
+                                    {{auth()->user()->name}}
+                                    </a>
                                     @else
-                                        ورود/ ثبت نام
+                                    <a href="/login" class="btn btn-blue">
+
+                                    ورود/ ثبت نام
+                                    </a>
                                     @endif
-                                </a>
+
                             </div>
 
                         </li>

@@ -8,7 +8,7 @@
     </p>
 
     <div class="form-check">
-        <input value="10" class="form-check-input" type="radio"
+        <input value="10" class="form-check-input" type="radio" required
                name="emotional"
                id="emotional1">
         <label class="form-check-label" for="emotional1">

@@ -11,7 +11,7 @@
 
     <div class="form-check">
         <input value="8" class="form-check-input" type="radio"
-               name="intimacy"
+               name="intimacy" required
                id="intimacy1">
         <label class="form-check-label" for="intimacy1">
             با شنیدن این جمله از من (تحت هر شرایطی) شروع می کند.        </label>

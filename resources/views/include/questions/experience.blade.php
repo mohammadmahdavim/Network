@@ -10,7 +10,7 @@
 
     <div class="form-check">
         <input value="6" class="form-check-input" type="radio"
-               name="experience"
+               name="experience" required
                id="experience1">
         <label class="form-check-label" for="experience1">
             هیچ گونه فعالیتی در شرکتهای قانونی و غیر قانونی نداشته است.         </label>

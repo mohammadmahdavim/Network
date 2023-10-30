@@ -53,14 +53,23 @@ class LoginController extends Controller
 
     public function register_user(RegisterRequest $request)
     {
-
+        $this->validate(request(), [
+                'mobile' => 'required|digits:11|regex:/^[0][9][0-9]{9,9}$/',
+                'password' => 'required|confirmed|min:6',
+            ]
+        );
         $id = User::create([
             'name' => $request->name,
             'mobile' => $request->mobile,
             'password' => Hash::make($request->password),
         ])->id;
         auth()->loginUsingId($id);
-        return redirect('panel');
+        return redirect('/panel');
+    }
+
+    public function username()
+    {
+        return 'mobile';
     }
 
 }

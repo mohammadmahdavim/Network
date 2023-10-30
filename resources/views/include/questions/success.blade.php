@@ -10,7 +10,7 @@
 
     <div class="form-check">
         <input value="8" class="form-check-input" type="radio"
-               name="success"
+               name="success" required
                id="success1">
         <label class="form-check-label" for="success1">
             موفقیت وی چنان برایم مهم است که تحت هر شرایطی هر روز انقدر پیگیری می کنم تا شروع کند.

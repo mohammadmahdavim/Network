@@ -70,122 +70,133 @@
 </div>
 <!-- end::sidebar -->
 
-<!-- begin::side menu -->
-<div class="side-menu">
-    <div class="side-menu-body">
-        <ul>
-            <li><a class="navbar-brand" href="/panel"><i class="icon ti-home"></i> <span>میز کار (داشبورد)</span></a>
-            </li>
-            @if(auth()->user()->role=='admin')
-                <li><a href="#"><i class="icon-collaboration"></i> &nbsp &nbsp <span>وبلاگ</span>
-                    </a>
-                    <ul>
-                        <li><a href="/blogs/create">ایجاد</a></li>
-                        <li><a href="/blogs">نمایش </a></li>
-                    </ul>
+@if(auth()->user()->level_id!='1')
+    <div class="side-menu">
+        <div class="side-menu-body">
+            <ul>
+                <li><a class="navbar-brand" href="/panel"><i class="icon ti-home"></i>
+                        <span>میز کار (داشبورد)</span></a>
                 </li>
-                <li><a href="#"><i class="icon-collaboration"></i> &nbsp &nbsp <span>فروشگاه</span>
-                    </a>
-                    <ul>
-                        <li><a href="/products/create">ایجاد محصول</a></li>
-                        <li><a href="/products">نمایش محصولات</a></li>
-                    </ul>
-                </li>
-                <li><a href="#"><i class="icon-collaboration"></i> &nbsp &nbsp <span>گزارشات</span>
-                    </a>
-                    <ul>
-                        <li><a href="/orders">سفارشات</a></li>
-                        {{--                    <li><a href="/transactions">پرداخت ها</a></li>--}}
-                    </ul>
-                </li>
-            @endif
-            <?php
-            $levels = \App\Models\Level::all();
-            ?>
-            <li><a href="#"><i class="icon-collaboration"></i> &nbsp &nbsp <span>آموزش ها</span>
-                </a>
-                <ul>
-                    @if(auth()->user()->role=='admin')
-
-                        <li><a href="/learns/create">ایجاد آموزش</a></li>
-                    @endif
-                    <li><a href="/#">نمایش آموزش ها</a>
+                @if(auth()->user()->role=='admin')
+                    <li><a href="#"><i class="icon-collaboration"></i> &nbsp &nbsp <span>وبلاگ</span>
+                        </a>
                         <ul>
-                            @if(auth()->user()->role=='admin')
+                            <li><a href="/blogs/create">ایجاد</a></li>
+                            <li><a href="/blogs">نمایش </a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#"><i class="icon-collaboration"></i> &nbsp &nbsp <span>فروشگاه</span>
+                        </a>
+                        <ul>
+                            <li><a href="/products/create">ایجاد محصول</a></li>
+                            <li><a href="/products">نمایش محصولات</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#"><i class="icon-collaboration"></i> &nbsp &nbsp <span>گزارشات</span>
+                        </a>
+                        <ul>
+                            <li><a href="/orders">سفارشات</a></li>
+                            {{--                    <li><a href="/transactions">پرداخت ها</a></li>--}}
+                        </ul>
+                    </li>
+                @endif
+                    <?php
+                    $levels = \App\Models\Level::all();
+                    ?>
+                <li><a href="#"><i class="icon-collaboration"></i> &nbsp &nbsp <span>آموزش ها</span>
+                    </a>
+                    <ul>
+                        @if(auth()->user()->role=='admin')
 
-                                <li>
-                                    <a href="/learns">همه ی آموزش ها</a>
-                                </li>
-                            @endif
+                            <li><a href="/learns/create">ایجاد آموزش</a></li>
+                        @endif
+                        <li><a href="/#">نمایش آموزش ها</a>
+                            <ul>
+                                @if(auth()->user()->role=='admin')
 
-                            @foreach($levels as $level)
-{{--                                @if($level->rank>1 and auth()->user()->level_id>=$level->rank)--}}
-                                @if(auth()->user()->level_id>=$level->rank)
-                                    <li><a href="/learns_list/{{$level->id}}">{{$level->name}}</a></li>
+                                    <li>
+                                        <a href="/learns">همه ی آموزش ها</a>
+                                    </li>
                                 @endif
-                            @endforeach
-                        </ul>
-                    </li>
 
-                </ul>
-            </li>
-            {{--            <li><a href="#"><i class="icon-collaboration"></i> &nbsp &nbsp <span>کلاس های آنلاین</span>--}}
-            {{--                </a>--}}
-            {{--                <ul>--}}
-            {{--                    @foreach($levels as $level)--}}
-            {{--                        <li><a href="/class/{{$level->id}}">{{$level->name}}</a></li>--}}
-            {{--                    @endforeach--}}
-            {{--                </ul>--}}
-            {{--            </li>--}}
-            <li><a href="#"><i class="icon-collaboration"></i> &nbsp &nbsp <span>کوییز ها</span>
-                </a>
-                <ul>
-                    @if(auth()->user()->role=='admin')
+                                @foreach($levels as $level)
+                                    {{--                                @if($level->rank>1 and auth()->user()->level_id>=$level->rank)--}}
+                                    @if(auth()->user()->level_id>=$level->rank)
+                                        <li><a href="/learns_list/{{$level->id}}">{{$level->name}}</a></li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </li>
 
-                        <li><a href="/exams/create">ایجاد آزمون</a></li>
-                    @endif
-                    <li><a href="/#">نمایش آزمون ها</a>
-                        <ul>
-                            @if(auth()->user()->role=='admin')
-
-                                <li>
-                                    <a href="/exams">همه ی آزمون ها</a>
-                                </li>
-                            @endif
-                            @foreach($levels as $level)
-                                <li><a href="/exams_list/{{$level->id}}">{{$level->name}}</a></li>
-                            @endforeach
-                        </ul>
-
-                    </li>
-                </ul>
-
-            </li>
-            <li><a href="#"><i class="icon-collaboration"></i> &nbsp &nbsp <span>لیست اسامی</span>
-                </a>
-                <ul>
-                    <li><a href="/members/bronze">برنزی</a></li>
-                    <li><a href="/members/silver">نقره ای</a></li>
-                    <li><a href="/members/golden">طلایی</a></li>
-                </ul>
-
-            </li>
-            @if(auth()->user()->role=='admin')
-
-                <li>
-                    <a href="/users">
-                        <i class="icon-collaboration"></i> &nbsp &nbsp
-                        لیست افراد
+                    </ul>
+                </li>
+                {{--            <li><a href="#"><i class="icon-collaboration"></i> &nbsp &nbsp <span>کلاس های آنلاین</span>--}}
+                {{--                </a>--}}
+                {{--                <ul>--}}
+                {{--                    @foreach($levels as $level)--}}
+                {{--                        <li><a href="/class/{{$level->id}}">{{$level->name}}</a></li>--}}
+                {{--                    @endforeach--}}
+                {{--                </ul>--}}
+                {{--            </li>--}}
+                <li><a href="#"><i class="icon-collaboration"></i> &nbsp &nbsp <span>کوییز ها</span>
                     </a>
+                    <ul>
+                        @if(auth()->user()->role=='admin')
+
+                            <li><a href="/exams/create">ایجاد آزمون</a></li>
+                        @endif
+                        <li><a href="/#">نمایش آزمون ها</a>
+                            <ul>
+                                @if(auth()->user()->role=='admin')
+
+                                    <li>
+                                        <a href="/exams">همه ی آزمون ها</a>
+                                    </li>
+                                @endif
+                                @foreach($levels as $level)
+                                    <li><a href="/exams_list/{{$level->id}}">{{$level->name}}</a></li>
+                                @endforeach
+                            </ul>
+
+                        </li>
+                    </ul>
+
                 </li>
-                <li><a href="/contact">
-                        <i class="icon-collaboration"></i> &nbsp &nbsp
-                        ارتباط با ما</a>
+                <li><a href="#"><i class="icon-collaboration"></i> &nbsp &nbsp <span>لیست اسامی</span>
+                    </a>
+                    <ul>
+                        <li><a href="/members/bronze">برنزی</a></li>
+                        @if(\App\Models\Member::where('author', auth()->user()->id)
+                 ->where('status', 'silver')->count()!=0)
+                            <li><a href="/members/silver">نقره ای</a></li>
+
+                        @endif
+                        @if(\App\Models\Member::where('author', auth()->user()->id)
+                ->where('status', 'golden')->count()!=0)
+                        <li><a href="/members/golden">طلایی</a></li>
+                        @endif
+                    </ul>
+
                 </li>
-            @endif
-        </ul>
+                @if(auth()->user()->role=='admin')
+
+                    <li>
+                        <a href="/users">
+                            <i class="icon-collaboration"></i> &nbsp &nbsp
+                            لیست افراد
+                        </a>
+                    </li>
+                    <li><a href="/contact">
+                            <i class="icon-collaboration"></i> &nbsp &nbsp
+                            ارتباط با ما</a>
+                    </li>
+                @endif
+            </ul>
+        </div>
     </div>
-</div>
+
+@endif
+<!-- begin::side menu -->
 <!-- end::side menu -->
 
 <!-- begin::navbar -->
@@ -266,7 +277,13 @@
                     <li class="nav-item">
                         <a href="/home/blogs" class="nav-link " style="font-size: 14px!important;"
                            data-sidebar-target="#messages">
-                            وبلاگ
+                            آموزش عمومی
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/learns_list_level" class="nav-link " style="font-size: 14px!important;"
+                           data-sidebar-target="#messages">
+                            آموزش تخصصی
                         </a>
                     </li>
                     <li class="nav-item">
@@ -328,9 +345,9 @@
     <div class="container-fluid">
 
         <!-- begin::page header -->
-    @yield('header')
+        @yield('header')
 
-    <!-- end::page header -->
+        <!-- end::page header -->
         @yield('content')
     </div>
 

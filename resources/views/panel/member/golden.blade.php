@@ -63,12 +63,12 @@
                         <th>نام</th>
                         <th>نام خانوادگی</th>
                         <th>امتیاز نقره ای</th>
-                        <th>سن</th>
-                        <th>انگیزه</th>
-                        <th>زمان</th>
-                        <th>تاهل</th>
-                        <th>سابقه</th>
-                        <th>جمع بندی</th>
+{{--                        <th>سن</th>--}}
+{{--                        <th>انگیزه</th>--}}
+{{--                        <th>زمان</th>--}}
+{{--                        <th>تاهل</th>--}}
+{{--                        <th>سابقه</th>--}}
+{{--                        <th>جمع بندی</th>--}}
                         <th>آخرین ملاقات</th>
                         {{--                        <th>عملیات</th>--}}
                     </tr>
@@ -81,12 +81,16 @@
                             <td style="text-align: center">{{$row->name}}</td>
                             <td style="text-align: center">{{$row->family}}</td>
                             <td style="text-align: center">{{$row->work + $row->emotional + $row->consult_ability + $row->success+$row->intimacy}}</td>
-                            <td style="text-align: center">{{$row->age}}</td>
-                            <td style="text-align: center">{{$row->motivation}}</td>
-                            <td style="text-align: center">{{$row->free_time}}</td>
-                            <td style="text-align: center">{{$row->marital_status}}</td>
-                            <td style="text-align: center">{{$row->experience}}</td>
-                            <td style="text-align: center">{{$row->work + $row->emotional + $row->consult_ability + $row->success+$row->intimacy +$row->age +$row->motivation +$row->free_time +$row->marital_status +$row->experience}}</td>
+{{--                            <td style="text-align: center">{{$row->age}}</td>--}}
+{{--                            <td style="text-align: center">{{$row->motivation}}</td>--}}
+{{--                            <td style="text-align: center">{{$row->free_time}}</td>--}}
+{{--                            <td style="text-align: center">{{$row->marital_status}}</td>--}}
+{{--                            <td style="text-align: center">{{$row->experience}}</td>--}}
+{{--                            <td style="text-align: center">{{$row->work + $row->emotional + $row->consult_ability + $row->success+$row->intimacy +$row->age +$row->motivation +$row->free_time +$row->marital_status +$row->experience}}</td>--}}
+
+
+
+
 
                             {{--                            <td style="text-align: center">--}}
                             {{--                                <button type="button" class="btn btn-primary" data-toggle="modal"--}}

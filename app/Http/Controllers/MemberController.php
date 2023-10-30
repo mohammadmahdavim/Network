@@ -14,7 +14,8 @@ class MemberController extends Controller
         $rows = DB::table('members')
             ->orderBy(DB::raw("`emotional` + `work`"), 'desc')
             ->where('author', auth()->user()->id)
-            ->where('status', 'bronze')
+//            ->where('status', 'bronze')
+            ->whereNull('deleted_at')
             ->paginate(30);
         $count = Member::where('author', auth()->user()->id)->where('status', 'bronze')->count();
         return view('panel.member.bronze', ['rows' => $rows, 'count' => $count]);
@@ -22,8 +23,9 @@ class MemberController extends Controller
 
     public function silver()
     {
-        $rows = Member::where('author', auth()->user()->id)->where('status', 'silver')
+        $rows = Member::where('author', auth()->user()->id)->whereIn('status', ['silver', 'golden'])
             ->orderBy(DB::raw("`emotional` + `work` + `consult_ability` + `success` + `intimacy`"), 'desc')
+            ->whereNull('deleted_at')
             ->paginate(30);
         $count = Member::where('author', auth()->user()->id)->where('status', 'silver')->count();
 
@@ -34,6 +36,7 @@ class MemberController extends Controller
     {
         $rows = Member::where('author', auth()->user()->id)->where('status', 'golden')
             ->orderBy(DB::raw("`emotional` + `work` + `consult_ability` + `success` + `intimacy`+`age` + `motivation` + `free_time` + `marital_status` + `experience`"), 'desc')
+            ->whereNull('deleted_at')
             ->paginate(30);
         return view('panel.member.golden', ['rows' => $rows]);
     }
@@ -47,8 +50,8 @@ class MemberController extends Controller
 
         ]);
 
-        alert()->success('فرد جدید به لیست اسامی افزوده گردید.', 'موفق');
-        return back();
+//        alert()->success('فرد جدید به لیست اسامی افزوده گردید.', 'موفق');
+        return back()->withErrors('فرد جدید به لیست اسامی افزوده گردید.');
     }
 
     public function update(Request $request, $id)
@@ -56,7 +59,7 @@ class MemberController extends Controller
         $memeber = Member::where('id', $id)->first();
         $memeber->update([
             'name' => $request->name,
-            'mobile' => $request->mobile,
+            'family' => $request->family,
         ]);
 
         alert()->success('اطلاعات ویرایش گردید.', 'موفق');
@@ -71,6 +74,12 @@ class MemberController extends Controller
 
     public function analyze()
     {
+        DB::beginTransaction();
+        DB::table('members')
+            ->where('author', auth()->user()->id)
+            ->where('status', 'silver')
+            ->update(['status' => 'bronze']);
+
         $count = Member::where('author', auth()->user()->id)->where('status', 'bronze')->count();
         if ($count >= 200) {
             $tops = DB::table('members')
@@ -96,8 +105,10 @@ class MemberController extends Controller
                 ->where('author', auth()->user()->id)
                 ->where('status', 'bronze')
                 ->update(['status' => 'silver']);
+            DB::commit();
             alert()->success('آنالیز با موفقیت انجام شد.', 'موفق');
             return back();
+
         }
         alert()->error('حداقل 200 نفر باید وارد کنید.', 'ناموفق');
         return back();
@@ -116,6 +127,11 @@ class MemberController extends Controller
 
     public function analyze_silver()
     {
+        DB::beginTransaction();
+        DB::table('members')
+            ->where('author', auth()->user()->id)
+            ->where('status', 'golden')
+            ->update(['status' => 'silver']);
         $count = Member::where('author', auth()->user()->id)->where('status', 'silver')->count();
         if ($count >= 100) {
             $tops = DB::table('members')
@@ -141,23 +157,29 @@ class MemberController extends Controller
                 ->where('status', 'silver')
                 ->update(['status' => 'golden']);
             alert()->success('آنالیز با موفقیت انجام شد.', 'موفق');
+            DB::commit();
             return back();
         }
         alert()->error('حداقل 100 نفر باید وارد کنید.', 'ناموفق');
         return back();
     }
 
-    public function questions($type,$status)
+    public function questions($type, $status)
     {
         $members = Member::where('author', auth()->user()->id)
             ->where('status', $status)
+            ->whereNull($type)
             ->orderBy(DB::raw("`emotional` + `work` + `consult_ability` + `success` + `intimacy`+`age` + `motivation` + `free_time` + `marital_status` + `experience`"), 'desc')
             ->paginate(1);
+        if (count($members) == 0) {
+            return redirect('members/' . $status);
+        }
         return view('panel.member.questions', ['members' => $members, 'type' => $type]);
     }
 
     public function questions_store(Request $request)
     {
+
         $member = Member::where('id', $request->user_id)->first();
         $member->update([
             'emotional' => $request->emotional ?? $member->emotional,
@@ -174,9 +196,9 @@ class MemberController extends Controller
         ]);
         $url = explode('?', url()->previous());
         $page = $request->page + 1;
-        alert()->success('ُسوال با موفقیت ثبت شد.', 'موفق');
+//        alert()->success('ُسوال با موفقیت ثبت شد.', 'موفق');
 
-        return redirect($url[0] . '?page=' . $page);
+        return redirect($url[0]);
 
     }
 }
