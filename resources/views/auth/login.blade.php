@@ -56,7 +56,7 @@
                         <label>موبایل</label>
                         <input id="mobile" type=""
                                class="form-control form-control-lg{{ $errors->has('mobile') ? ' is-invalid' : '' }}"
-                               name="mobile" required autofocus placeholder="کد ملی">
+                               name="mobile" required autofocus placeholder="موبایل">
 
                         @if ($errors->has('mobile'))
                             <span class="invalid-feedback" role="alert">

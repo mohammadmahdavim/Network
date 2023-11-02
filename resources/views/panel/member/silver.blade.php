@@ -32,26 +32,25 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            @if($count>=100)
                 <a href="/members/questions/consult_ability/silver">
                     <button class="btn btn-primary">مشورت پذیری</button>
                 </a>
-            @endif
+
 
             @if(\App\Models\Member::where('author', auth()->user()->id)
-                 ->where('status', 'silver')->whereNotNull('consult_ability')->count()>=200)
+                 ->where('status', 'silver')->whereNull('consult_ability')->count()==0)
                 <a href="/members/questions/success/silver">
                     <button class="btn btn-primary">موفقیت</button>
                 </a>
             @endif
             @if(\App\Models\Member::where('author', auth()->user()->id)
-                ->where('status', 'silver')->whereNotNull('success')->count()>=200)
+                ->where('status', 'silver')->whereNull('success')->count()==0)
                 <a href="/members/questions/intimacy/silver">
                     <button class="btn btn-primary">صمیمیت</button>
                 </a>
             @endif
             @if(\App\Models\Member::where('author', auth()->user()->id)
-              ->where('status', 'silver')->whereNotNull('intimacy')->count()>=200)
+              ->where('status', 'silver')->whereNull('intimacy')->count()==0)
                 <a href="/members/analyze_silver/silver">
                     <button class="btn btn-warning">آنالیز</button>
                 </a>
@@ -76,7 +75,7 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <?php $idn = 1; ?>
+                        <?php $idn = 1 +(($rows->currentPage()-1)*$rows->perpage()); ?>
                         @foreach($rows as $row)
                             <td style="text-align: center">{{$idn}}</td>
                             <td style="text-align: center">{{$row->name}}</td>

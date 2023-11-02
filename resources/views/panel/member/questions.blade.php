@@ -33,7 +33,7 @@
     <div class="card">
         <div class="card-body">
             <button class="btn btn-warning">نفر
-                {{$members->currentPage()}}
+                {{$count-1}}
                 ام
             </button>
             <div class="row">

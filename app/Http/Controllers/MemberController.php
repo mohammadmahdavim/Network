@@ -12,7 +12,8 @@ class MemberController extends Controller
     public function bronze()
     {
         $rows = DB::table('members')
-            ->orderBy(DB::raw("`emotional` + `work`"), 'desc')
+//            ->orderBy(DB::raw("`emotional` + `work`"), 'desc')
+            ->orderBy('created_at', 'asc')
             ->where('author', auth()->user()->id)
 //            ->where('status', 'bronze')
             ->whereNull('deleted_at')
@@ -24,7 +25,9 @@ class MemberController extends Controller
     public function silver()
     {
         $rows = Member::where('author', auth()->user()->id)->whereIn('status', ['silver', 'golden'])
-            ->orderBy(DB::raw("`emotional` + `work` + `consult_ability` + `success` + `intimacy`"), 'desc')
+            ->orderBy('created_at', 'asc')
+
+//            ->orderBy(DB::raw("`emotional` + `work` + `consult_ability` + `success` + `intimacy`"), 'desc')
             ->whereNull('deleted_at')
             ->paginate(30);
         $count = Member::where('author', auth()->user()->id)->where('status', 'silver')->count();
@@ -35,7 +38,8 @@ class MemberController extends Controller
     public function golden()
     {
         $rows = Member::where('author', auth()->user()->id)->where('status', 'golden')
-            ->orderBy(DB::raw("`emotional` + `work` + `consult_ability` + `success` + `intimacy`+`age` + `motivation` + `free_time` + `marital_status` + `experience`"), 'desc')
+            ->orderBy('created_at', 'asc')
+//            ->orderBy(DB::raw("`emotional` + `work` + `consult_ability` + `success` + `intimacy`+`age` + `motivation` + `free_time` + `marital_status` + `experience`"), 'desc')
             ->whereNull('deleted_at')
             ->paginate(30);
         return view('panel.member.golden', ['rows' => $rows]);
@@ -169,12 +173,17 @@ class MemberController extends Controller
         $members = Member::where('author', auth()->user()->id)
             ->where('status', $status)
             ->whereNull($type)
-            ->orderBy(DB::raw("`emotional` + `work` + `consult_ability` + `success` + `intimacy`+`age` + `motivation` + `free_time` + `marital_status` + `experience`"), 'desc')
+            ->orderBy('created_at', 'asc')
+//            ->orderBy(DB::raw("`emotional` + `work` + `consult_ability` + `success` + `intimacy`+`age` + `motivation` + `free_time` + `marital_status` + `experience`"), 'desc')
             ->paginate(1);
         if (count($members) == 0) {
             return redirect('members/' . $status);
         }
-        return view('panel.member.questions', ['members' => $members, 'type' => $type]);
+
+        $count =  Member::where('author', auth()->user()->id)
+            ->where('status', $status)
+            ->whereNotNull($type)->count();
+        return view('panel.member.questions', ['members' => $members, 'type' => $type, 'count' => $count]);
     }
 
     public function questions_store(Request $request)
