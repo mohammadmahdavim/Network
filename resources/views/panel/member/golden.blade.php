@@ -32,26 +32,50 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-{{--            @if($count>=100)--}}
-                <a href="/members/questions/age/golden">
-                    <button class="btn btn-primary">سن</button>
-                </a>
+
+            <a href="/members/questions/age/golden">
+                <button class="btn btn-primary">سن</button>
+            </a>
+            @if(\App\Models\Member::where('author', auth()->user()->id)
+             ->where('status', 'silver')->whereNull('age')->count()==0)
                 <a href="/members/questions/motivation/golden">
                     <button class="btn btn-primary">انگیزه</button>
                 </a>
+            @endif
+            @if(\App\Models\Member::where('author', auth()->user()->id)
+           ->where('status', 'silver')->whereNull('motivation')->count()==0)
                 <a href="/members/questions/free_time/golden">
                     <button class="btn btn-primary">زمان</button>
                 </a>
+            @endif
+            @if(\App\Models\Member::where('author', auth()->user()->id)
+           ->where('status', 'silver')->whereNull('free_time')->count()==0)
                 <a href="/members/questions/marital_status/golden">
                     <button class="btn btn-primary">تاهل</button>
                 </a>
+            @endif
+            @if(\App\Models\Member::where('author', auth()->user()->id)
+       ->where('status', 'silver')->whereNull('marital_status')->count()==0)
                 <a href="/members/questions/experience/golden">
                     <button class="btn btn-primary">سابقه</button>
                 </a>
-{{--                <a href="/members/analyze_silver">--}}
-{{--                    <button class="btn btn-warning">آنالیز</button>--}}
-{{--                </a>--}}
-{{--            @endif--}}
+            @endif
+            @if(\App\Models\Member::where('author', auth()->user()->id)
+     ->where('status', 'silver')->whereNull('experience')->count()==0)
+                <a href="/members/questions/last_meet/golden">
+                    <button class="btn btn-primary">آخرین ملاقات</button>
+                </a>
+            @endif
+            @if(\App\Models\Member::where('author', auth()->user()->id)
+             ->where('status', 'golden')->whereNull('last_meet')->count()==0)
+                <a href="/members/analyze_golden">
+                    <button class="btn btn-warning">آنالیز</button>
+                </a>
+            @endif
+            {{--                <a href="/members/analyze_silver">--}}
+            {{--                    <button class="btn btn-warning">آنالیز</button>--}}
+            {{--                </a>--}}
+            {{--            @endif--}}
 
 
             <div class="">
@@ -62,15 +86,17 @@
                         <th>شمارنده</th>
                         <th>نام</th>
                         <th>نام خانوادگی</th>
-                        <th>امتیاز نقره ای</th>
-{{--                        <th>سن</th>--}}
-{{--                        <th>انگیزه</th>--}}
-{{--                        <th>زمان</th>--}}
-{{--                        <th>تاهل</th>--}}
-{{--                        <th>سابقه</th>--}}
-{{--                        <th>جمع بندی</th>--}}
-                        <th>آخرین ملاقات</th>
+                        {{--                        <th>امتیاز نقره ای</th>--}}
+                        {{--                        <th>سن</th>--}}
+                        {{--                        <th>انگیزه</th>--}}
+                        {{--                        <th>زمان</th>--}}
+                        {{--                        <th>تاهل</th>--}}
+                        {{--                        <th>سابقه</th>--}}
+                        <th>امتیاز طلایی</th>
                         {{--                        <th>عملیات</th>--}}
+                        <th>اضافه به دعوت شده ها</th>
+                        <th>اضافه به سیر کل مشترک</th>
+                        <th>وضعیت</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -80,16 +106,23 @@
                             <td style="text-align: center">{{$idn}}</td>
                             <td style="text-align: center">{{$row->name}}</td>
                             <td style="text-align: center">{{$row->family}}</td>
-                            <td style="text-align: center">{{$row->work + $row->emotional + $row->consult_ability + $row->success+$row->intimacy}}</td>
-{{--                            <td style="text-align: center">{{$row->age}}</td>--}}
-{{--                            <td style="text-align: center">{{$row->motivation}}</td>--}}
-{{--                            <td style="text-align: center">{{$row->free_time}}</td>--}}
-{{--                            <td style="text-align: center">{{$row->marital_status}}</td>--}}
-{{--                            <td style="text-align: center">{{$row->experience}}</td>--}}
-{{--                            <td style="text-align: center">{{$row->work + $row->emotional + $row->consult_ability + $row->success+$row->intimacy +$row->age +$row->motivation +$row->free_time +$row->marital_status +$row->experience}}</td>--}}
+                            {{--                            <td style="text-align: center">{{$row->work + $row->emotional + $row->consult_ability + $row->success+$row->intimacy}}</td>--}}
+                            {{--                            <td style="text-align: center">{{$row->age}}</td>--}}
+                            {{--                            <td style="text-align: center">{{$row->motivation}}</td>--}}
+                            {{--                            <td style="text-align: center">{{$row->free_time}}</td>--}}
+                            {{--                            <td style="text-align: center">{{$row->marital_status}}</td>--}}
+                            {{--                            <td style="text-align: center">{{$row->experience}}</td>--}}
+                            <td style="text-align: center">{{$row->work + $row->emotional + $row->consult_ability + $row->success+$row->intimacy +$row->age +$row->motivation +$row->free_time +$row->marital_status +$row->experience}}</td>
+                            <td><input value="second" class="form-control" type="checkbox" name="invites"
+                                       onclick="change('{{$row->id}}',this,'invites','status3') "
+                                       @if($row->status3=='invites') checked @endif></td>
+                            <td><input value="shared" class="form-control" type="checkbox" name="shared"
+                                       onclick="change('{{$row->id}}',this,'shared','status2') "
+                                       @if($row->status2=='shared') checked @endif></td>
 
-
-
+                            <td>
+                                @if($row->last_meet=1) نیاز به پیش دعوت @else نیاز به ارتباط سازی @endif
+                            </td>
 
 
                             {{--                            <td style="text-align: center">--}}
@@ -254,7 +287,7 @@
                             {{--                            </td>--}}
 
                     </tr>
-                    <?php $idn = $idn + 1 ?>
+                        <?php $idn = $idn + 1 ?>
                     @endforeach
                     </tbody>
                 </table>

@@ -165,6 +165,7 @@
                 <li><a href="#"><i class="icon-collaboration"></i> &nbsp &nbsp <span>لیست اسامی</span>
                     </a>
                     <ul>
+                        <li><a href="/members/first">اولیه</a></li>
                         <li><a href="/members/bronze">برنزی</a></li>
                         @if(\App\Models\Member::where('author', auth()->user()->id)
                  ->where('status', 'silver')->count()!=0)
@@ -173,7 +174,31 @@
                         @endif
                         @if(\App\Models\Member::where('author', auth()->user()->id)
                 ->where('status', 'golden')->count()!=0)
-                        <li><a href="/members/golden">طلایی</a></li>
+                            <li><a href="/members/golden">طلایی</a></li>
+                        @endif
+                        @if(\App\Models\Member::where('author', auth()->user()->id)
+                            ->where('status', 'final')->count()!=0)
+                            <li><a href="/members/final">نهایی</a></li>
+                        @endif
+                        @if(\App\Models\Member::where('author', auth()->user()->id)
+                          ->where('status2', 'second')->count()!=0)
+                            <li><a href="/members/second">ثانویه</a></li>
+                        @endif
+                        @if(\App\Models\Member::where('author', auth()->user()->id)
+                          ->where('status2', 'shared')->count()!=0)
+                            <li><a href="/members/shared">مشترک</a></li>
+                        @endif
+                        @if(\App\Models\Member::where('author', auth()->user()->id)
+                          ->where('status3', 'invites')->count()!=0)
+                            <li><a href="/members/invites">دعوت شده</a></li>
+                        @endif
+                        @if(\App\Models\Member::where('author', auth()->user()->id)
+                           ->where('status3', 'presents')->count()!=0)
+                            <li><a href="/members/presents">پرزنت شده</a></li>
+                        @endif
+                        @if(\App\Models\Member::where('author', auth()->user()->id)
+                          ->where('status3', 'presents')->count()!=0)
+                            <li><a href="/members/follow_up">پیگیری</a></li>
                         @endif
                     </ul>
 
@@ -370,6 +395,46 @@
 
 
 @yield('script')
+<script>
+    function change(id, obj, name, column) {
+        var $input = $(obj);
+        var type = 0;
+        if ($input.prop('checked')) {
+            var type = 1;
+        }
+
+        $.ajaxSetup({
+
+            'headers': {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+
+        $.ajax({
+            url: '{{url('/members/change_type')}}',
+            type: 'post',
+            data: {
+                "_token": "{{ csrf_token() }}",
+                type: type,
+                name: name,
+                column: column,
+                "id": id
+            },
+            success: function () {
+                swal({
+                    title: "عملیات انجام شد.",
+                    icon: "success",
+
+                });
+                location.reload();
+
+            }
+        })
+
+
+    }
+</script>
 
 </body>
 </html>

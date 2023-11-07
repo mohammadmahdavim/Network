@@ -71,17 +71,30 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::resource('users', \App\Http\Controllers\UserController::class);
         Route::any('members/update/{id}', [\App\Http\Controllers\MemberController::class, 'update']);
+
+        Route::get('members/first', [\App\Http\Controllers\MemberController::class, 'first']);
         Route::get('members/bronze', [\App\Http\Controllers\MemberController::class, 'bronze']);
         Route::get('members/silver', [\App\Http\Controllers\MemberController::class, 'silver']);
         Route::get('members/golden', [\App\Http\Controllers\MemberController::class, 'golden']);
+        Route::get('members/final', [\App\Http\Controllers\MemberController::class, 'final']);
+        Route::get('members/second', [\App\Http\Controllers\MemberController::class, 'second']);
+        Route::get('members/shared', [\App\Http\Controllers\MemberController::class, 'shared']);
+        Route::get('members/invites', [\App\Http\Controllers\MemberController::class, 'invites']);
+        Route::get('members/presents', [\App\Http\Controllers\MemberController::class, 'presents']);
+        Route::get('members/follow_up', [\App\Http\Controllers\MemberController::class, 'follow_up']);
+
         Route::post('members/create', [\App\Http\Controllers\MemberController::class, 'store']);
         Route::post('members/update_silver/{id}', [\App\Http\Controllers\MemberController::class, 'update_silver']);
         Route::any('members/delete/{id}', [\App\Http\Controllers\MemberController::class, 'delete']);
         Route::get('members/analyze', [\App\Http\Controllers\MemberController::class, 'analyze']);
         Route::get('members/analyze_silver', [\App\Http\Controllers\MemberController::class, 'analyze_silver']);
+        Route::get('members/analyze_golden', [\App\Http\Controllers\MemberController::class, 'analyze_golden']);
 
         Route::get('members/questions/{type}/{level}', [\App\Http\Controllers\MemberController::class, 'questions']);
         Route::post('members/questions/store', [\App\Http\Controllers\MemberController::class, 'questions_store']);
+
+        Route::post('members/change_type', [\App\Http\Controllers\MemberController::class, 'change_type']);
+        Route::post('members/change_point', [\App\Http\Controllers\MemberController::class, 'change_point']);
 
 
     });

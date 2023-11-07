@@ -4,11 +4,6 @@
 @section('script')
     <script src="/js/sweetalert.min.js"></script>
     @include('sweet::alert')
-    <script>
-        var input = document.getElementById('myTextInput');
-        input.focus();
-        input.select();
-    </script>
 @endsection('script')
 @section('navbar')
 
@@ -21,12 +16,12 @@
 @section('header')
     <div class="page-header">
         <div>
-            <h3> لیست برنزی</h3>
+            <h3> لیست نهایی</h3>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">داشبورد</a></li>
                     <li class="breadcrumb-item"><a href="#">لیست اسامی</a></li>
-                    <li class="breadcrumb-item active" aria-current="page"> لیست برنزی</li>
+                    <li class="breadcrumb-item active" aria-current="page"> لیست نهایی</li>
                 </ol>
             </nav>
         </div>
@@ -37,8 +32,6 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-
-
             <div class="">
                 <br>
                 <table class="table table-bordered table-striped mb-0 table-fixed" id="myTable">
@@ -47,24 +40,25 @@
                         <th>شمارنده</th>
                         <th>نام</th>
                         <th>نام خانوادگی</th>
-                        <th>اعتبار برنزی</th>
-                        <th>اضافه به ثانویه</th>
+                        <th>امتیاز طلایی</th>
+                        <th>اضافه به دعوت شده ها</th>
                         <th>اضافه به سیر کل مشترک</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <?php $idn = 1 + (($rows->currentPage() - 1) * $rows->perpage()); ?>
+                        <?php $idn = 1; ?>
                         @foreach($rows as $row)
                             <td style="text-align: center">{{$idn}}</td>
                             <td style="text-align: center">{{$row->name}}</td>
                             <td style="text-align: center">{{$row->family}}</td>
-                            <td style="text-align: center">{{$row->work + $row->emotional }}</td>
-                            <td><input value="second" class="form-control" type="checkbox" name="second" onclick="change('{{$row->id}}',this,'second','status2') "
-                                       @if($row->status2=='second') checked @endif></td>
-                            <td><input value="shared" class="form-control" type="checkbox" name="shared" onclick="change('{{$row->id}}',this,'shared','status2') "
+                            <td style="text-align: center">{{$row->work + $row->emotional + $row->consult_ability + $row->success+$row->intimacy +$row->age +$row->motivation +$row->free_time +$row->marital_status +$row->experience}}</td>
+                            <td><input value="second" class="form-control" type="checkbox" name="invites"
+                                       onclick="change('{{$row->id}}',this,'invites','status3') "
+                                       @if($row->status3=='invites') checked @endif></td>
+                            <td><input value="shared" class="form-control" type="checkbox" name="shared"
+                                       onclick="change('{{$row->id}}',this,'shared','status2') "
                                        @if($row->status2=='shared') checked @endif></td>
-
                     </tr>
                         <?php $idn = $idn + 1 ?>
                     @endforeach
@@ -122,6 +116,5 @@
     }
 
 </script>
-
 
 

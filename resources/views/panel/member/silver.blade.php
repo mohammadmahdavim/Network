@@ -51,7 +51,7 @@
             @endif
             @if(\App\Models\Member::where('author', auth()->user()->id)
               ->where('status', 'silver')->whereNull('intimacy')->count()==0)
-                <a href="/members/analyze_silver/silver">
+                <a href="/members/analyze_silver">
                     <button class="btn btn-warning">آنالیز</button>
                 </a>
             @endif
@@ -65,12 +65,14 @@
                         <th>شمارنده</th>
                         <th>نام</th>
                         <th>نام خانوادگی</th>
-                        <th>امتیاز برنزی</th>
+{{--                        <th>امتیاز برنزی</th>--}}
 {{--                        <th>مشورت پذیری</th>--}}
 {{--                        <th>موفقیت</th>--}}
 {{--                        <th>صمیمیت</th>--}}
-{{--                        <th>مجموع</th>--}}
+                        <th>امتیاز نقره ای</th>
                         {{--                        <th>عملیات</th>--}}
+                        <th>اضافه به ثانویه</th>
+                        <th>اضافه به سیر کل مشترک</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -80,12 +82,15 @@
                             <td style="text-align: center">{{$idn}}</td>
                             <td style="text-align: center">{{$row->name}}</td>
                             <td style="text-align: center">{{$row->family}}</td>
-                            <td style="text-align: center">{{$row->work + $row->emotional }}</td>
+{{--                            <td style="text-align: center">{{$row->work + $row->emotional }}</td>--}}
 {{--                            <td style="text-align: center">{{$row->consult_ability}}</td>--}}
 {{--                            <td style="text-align: center">{{$row->success}}</td>--}}
 {{--                            <td style="text-align: center">{{$row->intimacy}}</td>--}}
-{{--                            <td style="text-align: center">{{$row->work + $row->emotional + $row->consult_ability + $row->success+$row->intimacy}}</td>--}}
-
+                            <td style="text-align: center">{{$row->work + $row->emotional + $row->consult_ability + $row->success+$row->intimacy}}</td>
+                            <td><input value="second" class="form-control" type="checkbox" name="second" onclick="change('{{$row->id}}',this,'second','status2') "
+                                       @if($row->status2=='second') checked @endif></td>
+                            <td><input value="shared" class="form-control" type="checkbox" name="shared" onclick="change('{{$row->id}}',this,'shared','status2') "
+                                       @if($row->status2=='shared') checked @endif></td>
 
 
                             {{--                            <td style="text-align: center">--}}
