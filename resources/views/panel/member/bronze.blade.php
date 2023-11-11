@@ -39,7 +39,7 @@
         <div class="card-body">
 
 
-            <div class="">
+            <div class="table-responsive">
                 <br>
                 <table class="table table-bordered table-striped mb-0 table-fixed" id="myTable">
                     <thead>
@@ -48,6 +48,7 @@
                         <th>نام</th>
                         <th>نام خانوادگی</th>
                         <th>اعتبار برنزی</th>
+
                         <th>اضافه به ثانویه</th>
                         <th>اضافه به سیر کل مشترک</th>
                     </tr>
@@ -60,10 +61,15 @@
                             <td style="text-align: center">{{$row->name}}</td>
                             <td style="text-align: center">{{$row->family}}</td>
                             <td style="text-align: center">{{$row->work + $row->emotional }}</td>
-                            <td><input value="second" class="form-control" type="checkbox" name="second" onclick="change('{{$row->id}}',this,'second','status2') "
-                                       @if($row->status2=='second') checked @endif></td>
-                            <td><input value="shared" class="form-control" type="checkbox" name="shared" onclick="change('{{$row->id}}',this,'shared','status2') "
-                                       @if($row->status2=='shared') checked @endif></td>
+                            @if(\App\Models\Member::where('author', auth()->user()->id)
+                              ->where('status', 'final')->count()!=0)
+                                <td><input value="second" class="form-control" type="checkbox" name="second"
+                                           onclick="change('{{$row->id}}',this,'second','status2') "
+                                           @if($row->status2=='second') checked @endif></td>
+                                <td><input value="shared" class="form-control" type="checkbox" name="shared"
+                                           onclick="change('{{$row->id}}',this,'shared','status2') "
+                                           @if($row->status2=='shared') checked @endif></td>
+                            @endif
 
                     </tr>
                         <?php $idn = $idn + 1 ?>

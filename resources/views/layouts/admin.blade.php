@@ -166,7 +166,10 @@
                     </a>
                     <ul>
                         <li><a href="/members/first">اولیه</a></li>
+                        @if(\App\Models\Member::where('author', auth()->user()->id)
+                 ->where('status', 'silver')->count()!=0)
                         <li><a href="/members/bronze">برنزی</a></li>
+                        @endif
                         @if(\App\Models\Member::where('author', auth()->user()->id)
                  ->where('status', 'silver')->count()!=0)
                             <li><a href="/members/silver">نقره ای</a></li>

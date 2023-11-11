@@ -32,7 +32,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <div class="">
+            <div class="table-responsive">
                 <br>
                 <table class="table table-bordered table-striped mb-0 table-fixed" id="myTable">
                     <thead>
@@ -79,9 +79,14 @@
                                 <button class="btn btn-sm btn-primary">ثبت</button>
                             </td>
                             </form>
-                            <td><input value="second" class="form-control" type="checkbox" name="presents"
-                                       onclick="change('{{$row->id}}',this,'presents','status3') "
-                                       @if($row->status3=='presents') checked @endif></td>
+
+                            <td>
+                                @if($row->invite_date and $row->invite_type)
+                                    <input value="second" class="form-control" type="checkbox" name="presents"
+                                           onclick="change('{{$row->id}}',this,'presents','status3') "
+                                           @if($row->status3=='presents') checked @endif>
+                                @endif
+                            </td>
                     </tr>
                         <?php $idn = $idn + 1 ?>
                     @endforeach

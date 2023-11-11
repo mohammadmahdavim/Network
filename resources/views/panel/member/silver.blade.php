@@ -57,7 +57,7 @@
             @endif
 
 
-            <div class="">
+            <div class="table-responsive">
                 <br>
                 <table class="table table-bordered table-striped mb-0 table-fixed" id="myTable">
                     <thead>
@@ -86,11 +86,15 @@
 {{--                            <td style="text-align: center">{{$row->consult_ability}}</td>--}}
 {{--                            <td style="text-align: center">{{$row->success}}</td>--}}
 {{--                            <td style="text-align: center">{{$row->intimacy}}</td>--}}
+
                             <td style="text-align: center">{{$row->work + $row->emotional + $row->consult_ability + $row->success+$row->intimacy}}</td>
+                            @if(\App\Models\Member::where('author', auth()->user()->id)
+                                 ->where('status', 'final')->count()!=0)
                             <td><input value="second" class="form-control" type="checkbox" name="second" onclick="change('{{$row->id}}',this,'second','status2') "
                                        @if($row->status2=='second') checked @endif></td>
                             <td><input value="shared" class="form-control" type="checkbox" name="shared" onclick="change('{{$row->id}}',this,'shared','status2') "
                                        @if($row->status2=='shared') checked @endif></td>
+                            @endif
 
 
                             {{--                            <td style="text-align: center">--}}

@@ -32,7 +32,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <div class="">
+            <div class="table-responsive">
                 <br>
                 <table class="table table-bordered table-striped mb-0 table-fixed" id="myTable">
                     <thead>

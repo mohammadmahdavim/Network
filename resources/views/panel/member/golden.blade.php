@@ -37,31 +37,31 @@
                 <button class="btn btn-primary">سن</button>
             </a>
             @if(\App\Models\Member::where('author', auth()->user()->id)
-             ->where('status', 'silver')->whereNull('age')->count()==0)
+             ->where('status', 'golden')->whereNull('age')->count()==0)
                 <a href="/members/questions/motivation/golden">
                     <button class="btn btn-primary">انگیزه</button>
                 </a>
             @endif
             @if(\App\Models\Member::where('author', auth()->user()->id)
-           ->where('status', 'silver')->whereNull('motivation')->count()==0)
+           ->where('status', 'golden')->whereNull('motivation')->count()==0)
                 <a href="/members/questions/free_time/golden">
                     <button class="btn btn-primary">زمان</button>
                 </a>
             @endif
             @if(\App\Models\Member::where('author', auth()->user()->id)
-           ->where('status', 'silver')->whereNull('free_time')->count()==0)
+           ->where('status', 'golden')->whereNull('free_time')->count()==0)
                 <a href="/members/questions/marital_status/golden">
                     <button class="btn btn-primary">تاهل</button>
                 </a>
             @endif
             @if(\App\Models\Member::where('author', auth()->user()->id)
-       ->where('status', 'silver')->whereNull('marital_status')->count()==0)
+       ->where('status', 'golden')->whereNull('marital_status')->count()==0)
                 <a href="/members/questions/experience/golden">
                     <button class="btn btn-primary">سابقه</button>
                 </a>
             @endif
             @if(\App\Models\Member::where('author', auth()->user()->id)
-     ->where('status', 'silver')->whereNull('experience')->count()==0)
+     ->where('status', 'golden')->whereNull('experience')->count()==0)
                 <a href="/members/questions/last_meet/golden">
                     <button class="btn btn-primary">آخرین ملاقات</button>
                 </a>
@@ -78,7 +78,7 @@
             {{--            @endif--}}
 
 
-            <div class="">
+            <div class="table-responsive">
                 <br>
                 <table class="table table-bordered table-striped mb-0 table-fixed" id="myTable">
                     <thead>
@@ -113,6 +113,8 @@
                             {{--                            <td style="text-align: center">{{$row->marital_status}}</td>--}}
                             {{--                            <td style="text-align: center">{{$row->experience}}</td>--}}
                             <td style="text-align: center">{{$row->work + $row->emotional + $row->consult_ability + $row->success+$row->intimacy +$row->age +$row->motivation +$row->free_time +$row->marital_status +$row->experience}}</td>
+                            @if(\App\Models\Member::where('author', auth()->user()->id)
+                           ->where('status', 'final')->count()!=0)
                             <td><input value="second" class="form-control" type="checkbox" name="invites"
                                        onclick="change('{{$row->id}}',this,'invites','status3') "
                                        @if($row->status3=='invites') checked @endif></td>
@@ -123,6 +125,7 @@
                             <td>
                                 @if($row->last_meet=1) نیاز به پیش دعوت @else نیاز به ارتباط سازی @endif
                             </td>
+                            @endif
 
 
                             {{--                            <td style="text-align: center">--}}

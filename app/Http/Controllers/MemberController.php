@@ -91,7 +91,8 @@ class MemberController extends Controller
 
     public function invites()
     {
-        $rows = Member::where('author', auth()->user()->id)->where('status3', 'invites')
+        $rows = Member::where('author', auth()->user()->id)
+            ->whereIn('status3', ['invites','presents'])
             ->orderBy('created_at', 'asc')
 //            ->orderBy(DB::raw("`emotional` + `work` + `consult_ability` + `success` + `intimacy`+`age` + `motivation` + `free_time` + `marital_status` + `experience`"), 'desc')
             ->whereNull('deleted_at')

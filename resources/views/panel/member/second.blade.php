@@ -8,7 +8,7 @@
 
         $(document).ready(function () {
 
-            $(".point").on("change", function() {
+            $(".point").on("change", function () {
 
                 var value = $(this).val();
 
@@ -72,7 +72,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <div class="">
+            <div class="table-responsive">
                 <br>
                 <table class="table table-bordered table-striped mb-0 table-fixed" id="myTable">
                     <thead>
@@ -104,22 +104,32 @@
                                 @endif
                             </td>
                             <td>
-                                <select class="form-control point"  id="">
+                                <select class="form-control point" id="">
                                     <option value="NULL_{{$row->id}}"></option>
-                                    <option value="سرد_{{$row->id}}" @if($row->point=='سرد') selected @endif>سرد</option>
-                                    <option value="ولرم_{{$row->id}}" @if($row->point=='ولرم') selected @endif>ولرم</option>
-                                    <option  value="گرم_{{$row->id}}" @if($row->point=='گرم') selected @endif> گرم</option>
+                                    <option value="سرد_{{$row->id}}" @if($row->point=='سرد') selected @endif>سرد
+                                    </option>
+                                    <option value="ولرم_{{$row->id}}" @if($row->point=='ولرم') selected @endif>ولرم
+                                    </option>
+                                    <option value="گرم_{{$row->id}}" @if($row->point=='گرم') selected @endif> گرم
+                                    </option>
                                 </select>
                             </td>
-                            <td><input value="second" class="form-control" type="checkbox" name="second" onclick="change('{{$row->id}}',this,'1','esteghlal') "
+                            <td><input value="second" class="form-control" type="checkbox" name="second"
+                                       onclick="change('{{$row->id}}',this,'1','esteghlal') "
                                        @if($row->esteghlal==1) checked @endif></td>
                             </td>
-                            <td><input value="second" class="form-control" type="checkbox" name="second" onclick="change('{{$row->id}}',this,'1','growth') "
+                            <td><input value="second" class="form-control" type="checkbox" name="second"
+                                       onclick="change('{{$row->id}}',this,'1','growth') "
                                        @if($row->growth==1) checked @endif></td>
                             </td>
-                            <td><input value="second" class="form-control" type="checkbox" name="invites"
-                                       onclick="change('{{$row->id}}',this,'invites','status3') "
-                                       @if($row->status3=='invites') checked @endif></td>
+                            <td>
+                                @if($row->growth and $row->esteghlal)
+
+                                    <input value="second" class="form-control" type="checkbox" name="invites"
+                                           onclick="change('{{$row->id}}',this,'invites','status3') "
+                                           @if($row->status3=='invites') checked @endif>
+                                @endif
+                            </td>
 
                     </tr>
                         <?php $idn = $idn + 1 ?>

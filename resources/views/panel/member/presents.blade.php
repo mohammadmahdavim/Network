@@ -32,7 +32,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <div class="">
+            <div class="table-responsive">
                 <br>
                 <table class="table table-bordered table-striped mb-0 table-fixed" id="myTable">
                     <thead>
@@ -84,9 +84,14 @@
                                     <button class="btn btn-sm btn-primary">ثبت</button>
                                 </td>
                             </form>
-                            <td><input value="second" class="form-control" type="checkbox" name="register"
+                            <td>
+                                @if($row->present_type and $row->presentor and $row->present_date)
+
+                                <input value="second" class="form-control" type="checkbox" name="register"
                                        onclick="change('{{$row->id}}',this,'1','register') "
-                                       @if($row->register=='1') checked @endif></td>
+                                       @if($row->register=='1') checked @endif>
+                                @endif
+                            </td>
                     </tr>
                         <?php $idn = $idn + 1 ?>
                     @endforeach
