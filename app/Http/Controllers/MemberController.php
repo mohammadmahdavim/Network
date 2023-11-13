@@ -120,6 +120,15 @@ class MemberController extends Controller
             ->paginate(30);
         return view('panel.member.follow_up', ['rows' => $rows]);
     }
+    public function register()
+    {
+        $rows = Member::where('author', auth()->user()->id)->where('register', '1')
+            ->orderBy('created_at', 'asc')
+//            ->orderBy(DB::raw("`emotional` + `work` + `consult_ability` + `success` + `intimacy`+`age` + `motivation` + `free_time` + `marital_status` + `experience`"), 'desc')
+            ->whereNull('deleted_at')
+            ->paginate(30);
+        return view('panel.member.register', ['rows' => $rows]);
+    }
 
     public function store(Request $request)
     {
@@ -333,8 +342,9 @@ class MemberController extends Controller
         $count = Member::where('author', auth()->user()->id)->where('status', 'silver')->count();
 //        if ($count >= 100) {
         $tops = DB::table('members')
-            ->where(DB::raw("`emotional` + `work` + `consult_ability` + `success` + `intimacy` + `age` + `motivation` + `free_time` + `marital_status` + `experience`"), '>=', 20)
+//            ->where(DB::raw("`emotional` + `work` + `consult_ability` + `success` + `intimacy` + `age` + `motivation` + `free_time` + `marital_status` + `experience`"), '>=', 20)
             ->orderBy(DB::raw("`emotional` + `work` + `consult_ability` + `success` + `intimacy` + `age` + `motivation` + `free_time` + `marital_status` + `experience`"), 'desc')
+           ->where('last_meet',3)
             ->where('author', auth()->user()->id)
             ->where('status', 'golden')
             ->limit('20')
@@ -344,14 +354,16 @@ class MemberController extends Controller
         $lastPoint = $last->work + $last->emotional + $last->consult_ability + $last->success + $last->intimacy;
 
         DB::table('members')
-            ->where(DB::raw("`emotional` + `work` + `consult_ability` + `success` + `intimacy` + `age` + `motivation` + `free_time` + `marital_status` + `experience`"), '>=', 20)
+//            ->where(DB::raw("`emotional` + `work` + `consult_ability` + `success` + `intimacy` + `age` + `motivation` + `free_time` + `marital_status` + `experience`"), '>=', 20)
             ->where('author', auth()->user()->id)
             ->where('status', 'golden')
+            ->where('last_meet',3)
             ->limit(20)
             ->update(['status' => 'final']);
         DB::table('members')
             ->where(DB::raw("`emotional` + `work` + `consult_ability` + `success` + `intimacy` + `age` + `motivation` + `free_time` + `marital_status` + `experience`"), $lastPoint)
             ->where('author', auth()->user()->id)
+            ->where('last_meet',3)
             ->where('status', 'golden')
             ->update(['status' => 'final']);
         alert()->success('آنالیز با موفقیت انجام شد.', 'موفق');

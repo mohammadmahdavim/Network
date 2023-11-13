@@ -123,7 +123,10 @@
                                        @if($row->status2=='shared') checked @endif></td>
 
                             <td>
-                                @if($row->last_meet=1) نیاز به پیش دعوت @else نیاز به ارتباط سازی @endif
+                                @if($row->last_meet=1) نیاز به پیش دعوت
+                                @elseif($row->last_meet==2)
+                                    نیاز به ارتباط سازی
+                                @endif
                             </td>
                             @endif
 

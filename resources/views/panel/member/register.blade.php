@@ -4,6 +4,11 @@
 @section('script')
     <script src="/js/sweetalert.min.js"></script>
     @include('sweet::alert')
+    <script>
+        var input = document.getElementById('myTextInput');
+        input.focus();
+        input.select();
+    </script>
 @endsection('script')
 @section('navbar')
 
@@ -16,12 +21,12 @@
 @section('header')
     <div class="page-header">
         <div>
-            <h3> سوال</h3>
+            <h3> لیست شرکا</h3>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">داشبورد</a></li>
-                    <li class="breadcrumb-item"><a href="#">سوالات</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">سوال</li>
+                    <li class="breadcrumb-item"><a href="#">لیست اسامی</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"> لیست شرکا</li>
                 </ol>
             </nav>
         </div>
@@ -32,46 +37,36 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <button class="btn btn-warning btn-sm">نفر
-                {{$count+1}}
-                ام
-            </button>
-            <br>
-            <div class="row">
-                <div class="col-md-4">
-                   <br>
-                    <span >
-                        {{$members[0]->name}} {{$members[0]->family}}
-                    </span>
-                </div>
+
+
+            <div class="table-responsive">
+                <br>
+                <table class="table table-bordered table-striped mb-0 table-fixed" id="myTable">
+                    <thead>
+                    <tr class="success" style="text-align: center">
+                        <th>شمارنده</th>
+                        <th>نام</th>
+                        <th>نام خانوادگی</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <?php $idn = 1 + (($rows->currentPage() - 1) * $rows->perpage()); ?>
+                        @foreach($rows as $row)
+                            <td style="text-align: center">{{$idn}}</td>
+                            <td style="text-align: center">{{$row->name}}</td>
+                            <td style="text-align: center">{{$row->family}}</td>
+                    </tr>
+                        <?php $idn = $idn + 1 ?>
+                    @endforeach
+                    </tbody>
+                </table>
             </div>
+            {!! $rows->withQueryString()->links("pagination::bootstrap-4") !!}
+
         </div>
     </div>
-
-    <form action="/members/questions/store" method="post">
-        @csrf
-        <input name="user_id" value="{{$members[0]->id}}" hidden>
-        <input name="page" value="{{$members->currentPage()}}" hidden>
-        <div class="row">
-            <div class="card">
-                <div class="card-body">
-                    @include('include.questions.'.$type)
-                    <div class="col-md-12">
-                        <br>
-
-                        <button type="submit" class="btn btn-primary btn-block">
-                            ثبت
-                        </button>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
-    {{--        </div>--}}
-    {{--        </div>--}}
-
-
 
     <script src="/js/sweetalert.min.js"></script>
 
@@ -119,5 +114,6 @@
     }
 
 </script>
+
 
 

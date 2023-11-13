@@ -162,7 +162,7 @@
                     </ul>
 
                 </li>
-                <li><a href="#"><i class="icon-collaboration"></i> &nbsp &nbsp <span>لیست اسامی</span>
+                <li><a href="#"><i class="icon-collaboration"></i> &nbsp &nbsp <span>لیست اولیه</span>
                     </a>
                     <ul>
                         <li><a href="/members/first">اولیه</a></li>
@@ -183,29 +183,53 @@
                             ->where('status', 'final')->count()!=0)
                             <li><a href="/members/final">نهایی</a></li>
                         @endif
-                        @if(\App\Models\Member::where('author', auth()->user()->id)
-                          ->where('status2', 'second')->count()!=0)
-                            <li><a href="/members/second">ثانویه</a></li>
-                        @endif
-                        @if(\App\Models\Member::where('author', auth()->user()->id)
-                          ->where('status2', 'shared')->count()!=0)
-                            <li><a href="/members/shared">مشترک</a></li>
-                        @endif
-                        @if(\App\Models\Member::where('author', auth()->user()->id)
-                          ->where('status3', 'invites')->count()!=0)
-                            <li><a href="/members/invites">دعوت شده</a></li>
-                        @endif
-                        @if(\App\Models\Member::where('author', auth()->user()->id)
-                           ->where('status3', 'presents')->count()!=0)
-                            <li><a href="/members/presents">پرزنت شده</a></li>
-                        @endif
-                        @if(\App\Models\Member::where('author', auth()->user()->id)
-                          ->where('status3', 'presents')->count()!=0)
-                            <li><a href="/members/follow_up">پیگیری</a></li>
-                        @endif
                     </ul>
 
                 </li>
+                        @if(\App\Models\Member::where('author', auth()->user()->id)
+                          ->where('status2', 'second')->count()!=0)
+
+                            <li><a href="/members/second">
+                                    &nbsp &nbsp
+                                    لیست
+                                    ثانویه</a></li>
+                        @endif
+                        @if(\App\Models\Member::where('author', auth()->user()->id)
+                          ->where('status2', 'shared')->count()!=0)
+                            <li><a href="/members/shared">
+                                    &nbsp &nbsp
+                                    لیست
+                                    مشترک</a></li>
+                        @endif
+                        @if(\App\Models\Member::where('author', auth()->user()->id)
+                          ->where('status3', 'invites')->count()!=0)
+                            <li><a href="/members/invites">
+                                    &nbsp &nbsp
+                                    لیست
+                                    دعوت شده</a></li>
+                        @endif
+                        @if(\App\Models\Member::where('author', auth()->user()->id)
+                           ->where('status3', 'presents')->count()!=0)
+                            <li><a href="/members/presents">
+                                    &nbsp &nbsp
+                                    لیست
+                                    پرزنت شده</a></li>
+                        @endif
+                        @if(\App\Models\Member::where('author', auth()->user()->id)
+                          ->where('status3', 'presents')->count()!=0)
+                            <li><a href="/members/follow_up">
+                                    &nbsp &nbsp
+                                    لیست
+                                    پیگیری</a></li>
+                        @endif
+                @if(\App\Models\Member::where('author', auth()->user()->id)
+                        ->where('register', '1')->count()!=0)
+                    <li><a href="/members/register">
+                            &nbsp &nbsp
+                            لیست
+                            شرکای کاری مستقیم</a></li>
+                @endif
+
                 @if(auth()->user()->role=='admin')
 
                     <li>

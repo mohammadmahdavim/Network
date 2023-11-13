@@ -82,6 +82,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('members/invites', [\App\Http\Controllers\MemberController::class, 'invites']);
         Route::get('members/presents', [\App\Http\Controllers\MemberController::class, 'presents']);
         Route::get('members/follow_up', [\App\Http\Controllers\MemberController::class, 'follow_up']);
+        Route::get('members/register', [\App\Http\Controllers\MemberController::class, 'register']);
 
         Route::post('members/create', [\App\Http\Controllers\MemberController::class, 'store']);
         Route::post('members/update_silver/{id}', [\App\Http\Controllers\MemberController::class, 'update_silver']);
